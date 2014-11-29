@@ -1,0 +1,15 @@
+{
+  "name": "zone",
+  "homepage": "https://github.com/angular/zone.js",
+  "version": "0.3.0",
+  "_release": "0.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.3.0",
+    "commit": "7650a71b69b3351e4d7bb949e932abaf4d6dbacf"
+  },
+  "_source": "git://github.com/angular/zone.js.git",
+  "_target": "~0.3.0",
+  "_originalSource": "zone",
+  "_direct": true
+}
