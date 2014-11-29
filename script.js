@@ -2,10 +2,11 @@
  * Created by i on 14-11-28.
  */
 function main () {
+    console.log('zone go: ', start = Date.now());
     console.log('zones in action');
-    var fbData = new Firebase('https://tezt.firebaseio.com/anyapp/init');
-
-    fbData.set({
+    var fbData = new Firebase('https://tezt.firebaseio.com/anyapp/model/');
+/*
+    fbData.push({
         name: 'Any App',
         id: 'anyappID',
         index: 'any-app',
@@ -28,7 +29,7 @@ function main () {
                                 type: 'service',
                                 id: 'testService',
                                 data: {
-                                    test: this.name + 'This Service Test Passes'
+                                    test: this.name + 'This Service Also Passes'
                                 }
                             }
                         ]},
@@ -52,41 +53,34 @@ function main () {
             alive: false
         }
     });
-
-        fbData.on('value', function(snapshot) {
-            var readData = snapshot.val();
-            console.log('id: ', readData.id);
-            console.log('name: ', readData.name);
-            console.log('type: ', readData.type);
-            console.log('data: ', readData.data[0].components);
-            console.log('permissions: ', readData.permissions);
-
-            (function initApp (name, deps, components) {
-                var anyapp = angular.module(name, deps);
-                angular.forEach(components, function(component) {
-                    console.log('component: ', component);
-                    angular.forEach(component, function(entry) {
-                        console.log('component entry: ', entry);
-                        angular.forEach(entry, function (data) {
-                            console.log('component entry data: ', data);
-                            angular[data.type](data.name,function(){
-                                var entryData = data.data;
-                                console.log('entryData: ', entryData);
-                                return entryData;
-                            });
-                        });
-
-                    })
-                });
-                console.log('anyapp',anyapp);
-            })(readData.name, readData.data[0].deps, readData.data[0].components);
+*/
+    fbData.on('value', function(snapshot) {
+        var readData = snapshot.val();
+        console.log(readData);
 
 
-            (function throwError(message) {
-                throw new Error(message);
-            })(readData.name);
-        });
+        (function initApp (name, deps, components) {
+            if(readData.type === 'init'){
+                anyapp = angular.module(name, deps);
+            }
+            angular.forEach(components, function(component) {
+                angular.forEach(component, function(entry) {
+                    angular.forEach(entry, function (data) {
+                        var entryData = data.data;
+                        console.log('entryData: ', entryData);
+                    });
+                })
+            });
 
+        })(readData.name, readData.data[0].deps, readData.data[0].components);
+        console.log('anyapp',anyapp);
+
+
+        (function throwError(message) {
+            throw new Error(message);
+        })(readData.name);
+    });
+    console.log('zone stop: ', start - Date.now());
 }
 /*
  * What if your stack trace could tell you what
